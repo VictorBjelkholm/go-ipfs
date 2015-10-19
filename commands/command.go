@@ -196,13 +196,17 @@ func (c *Command) GetOptions(path []string) (map[string]Option, error) {
 
 	optionsMap := make(map[string]Option)
 	for _, opt := range options {
-		err := AddOption(optionsMap, opt.LongName(), opt)
-		if err != nil {
-			return nil, err
+		if opt.LongName() != "" {
+			err := AddOption(optionsMap, opt.LongName(), opt)
+			if err != nil {
+				return nil, err
+			}
 		}
-		err = AddOption(optionsMap, "-" + string(opt.ShortName()), opt)
-		if err != nil {
-			return nil, err
+		if opt.ShortName() != 0 {
+			err = AddOption(optionsMap, string(opt.ShortName()), opt)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
