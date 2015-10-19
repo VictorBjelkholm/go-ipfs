@@ -49,4 +49,14 @@ test_expect_success "All commands accept --help" '
 	done <commands.txt
 '
 
+test_expect_success "'ipfs commands --flags' succeeds" '
+	ipfs commands --flags >commands.txt
+'
+
+test_expect_success "'ipfs commands --flags' output looks good" '
+	grep "ipfs add" commands.txt &&
+	grep "ipfs daemon" commands.txt &&
+	grep "ipfs update" commands.txt
+'
+
 test_done
