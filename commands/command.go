@@ -171,10 +171,10 @@ func (c *Command) Get(path []string) (*Command, error) {
 	return cmds[len(cmds)-1], nil
 }
 
-func AddOption(optionsMap map[string]Option, name string, opt Option, synopsys string) error {
+func AddOption(optionsMap map[string]Option, name string, opt Option) error {
 	if _, found := optionsMap[name]; found {
 		return fmt.Errorf("Option name '%s' used multiple times in command: %s and command: %s",
-			name, synopsys, optionsMap[name].Command())
+			name, opt.Command(), optionsMap[name].Command())
 	}
 
 	optionsMap[name] = opt
@@ -194,7 +194,7 @@ func (c *Command) GetOptions(path []string) (map[string]Option, error) {
 	for _, cmd := range cmds {
 		opts := cmd.Options
 		for _, op := range opts {
-			op.SetCommand(cmd.Helptext.Synopsis)
+			op.SetCommand(strings.Join(path, "/") + " -> " + cmd.Helptext.Synopsis)
 		}
 		options = append(options, cmd.Options...)
 	}
@@ -202,13 +202,13 @@ func (c *Command) GetOptions(path []string) (map[string]Option, error) {
 	optionsMap := make(map[string]Option)
 	for _, opt := range options {
 		if opt.LongName() != "" {
-			err := AddOption(optionsMap, opt.LongName(), opt, c.Helptext.Synopsis)
+			err := AddOption(optionsMap, opt.LongName(), opt)
 			if err != nil {
 				return nil, err
 			}
 		}
 		if opt.ShortName() != 0 {
-			err = AddOption(optionsMap, string(opt.ShortName()), opt, c.Helptext.Synopsis)
+			err = AddOption(optionsMap, string(opt.ShortName()), opt)
 			if err != nil {
 				return nil, err
 			}
