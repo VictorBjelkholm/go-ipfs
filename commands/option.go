@@ -22,6 +22,8 @@ type Option interface {
 	ShortName() rune     // short option name
 	Type() reflect.Kind  // value must be this type
 	Description() string // a short string that describes this option
+	Command() string
+	SetCommand(command string)
 }
 
 type option struct {
@@ -29,6 +31,7 @@ type option struct {
 	shortName   rune
 	kind        reflect.Kind
 	description string
+	command     string
 }
 
 func (o *option) LongName() string {
@@ -45,6 +48,14 @@ func (o *option) Type() reflect.Kind {
 
 func (o *option) Description() string {
 	return o.description
+}
+
+func (o *option) Command() string {
+	return o.command
+}
+
+func (o *option) SetCommand(command string) {
+	o.command = command
 }
 
 // constructor helper functions
