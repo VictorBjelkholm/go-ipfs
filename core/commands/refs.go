@@ -51,7 +51,7 @@ Note: list all refs recursively with -r.
 	},
 	Options: []cmds.Option{
 		cmds.StringOption("format", 0, "Emit edges with given format. tokens: <src> <dst> <linkname>"),
-		cmds.BoolOption("edges", 'e', "Emit edge format: `<from> -> <to>`"),
+		// cmds.BoolOption("edges", 'e', "Emit edge format: `<from> -> <to>`"),
 		cmds.BoolOption("unique", 'u', "Omit duplicate refs from output"),
 		cmds.BoolOption("recursive", 'r', "Recursively list links of child nodes"),
 	},
